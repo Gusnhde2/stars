@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="none">
+  <defs>
+    <!-- Wood grain pattern -->
+    <pattern id="woodGrain" patternUnits="userSpaceOnUse" width="100" height="10">
+      <rect width="100" height="10" fill="#8B6914"/>
+      <path d="M0 2 Q25 0, 50 3 T100 2" stroke="#6B4E12" stroke-width="0.5" fill="none" opacity="0.4"/>
+      <path d="M0 5 Q25 3, 50 6 T100 5" stroke="#9C7A24" stroke-width="0.3" fill="none" opacity="0.3"/>
+      <path d="M0 8 Q25 6, 50 9 T100 8" stroke="#5C4010" stroke-width="0.4" fill="none" opacity="0.3"/>
+    </pattern>
+    <!-- Frame gradient for depth -->
+    <linearGradient id="woodFrameTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#A47D20"/>
+      <stop offset="50%" stop-color="#8B6914"/>
+      <stop offset="100%" stop-color="#6B4E12"/>
+    </linearGradient>
+    <linearGradient id="woodFrameLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#A47D20"/>
+      <stop offset="50%" stop-color="#8B6914"/>
+      <stop offset="100%" stop-color="#6B4E12"/>
+    </linearGradient>
+    <linearGradient id="woodFrameRight" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#A47D20"/>
+      <stop offset="50%" stop-color="#8B6914"/>
+      <stop offset="100%" stop-color="#6B4E12"/>
+    </linearGradient>
+    <linearGradient id="woodFrameBottom" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#A47D20"/>
+      <stop offset="50%" stop-color="#8B6914"/>
+      <stop offset="100%" stop-color="#6B4E12"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Frame pieces -->
+  <polygon points="0,0 400,0 370,30 30,30" fill="url(#woodFrameTop)"/>
+  <polygon points="0,0 30,30 30,470 0,500" fill="url(#woodFrameLeft)"/>
+  <polygon points="400,0 400,500 370,470 370,30" fill="url(#woodFrameRight)"/>
+  <polygon points="0,500 30,470 370,470 400,500" fill="url(#woodFrameBottom)"/>
+  
+  <!-- Wood grain overlay -->
+  <polygon points="0,0 400,0 370,30 30,30" fill="url(#woodGrain)" opacity="0.6"/>
+  <polygon points="0,0 30,30 30,470 0,500" fill="url(#woodGrain)" opacity="0.6"/>
+  <polygon points="400,0 400,500 370,470 370,30" fill="url(#woodGrain)" opacity="0.6"/>
+  <polygon points="0,500 30,470 370,470 400,500" fill="url(#woodGrain)" opacity="0.6"/>
+  
+  <!-- Inner edge highlight -->
+  <polygon points="30,30 370,30 370,470 30,470" fill="none" stroke="#5C4010" stroke-width="2"/>
+  
+  <!-- Inner content area (transparent) -->
+  <rect x="30" y="30" width="340" height="440" fill="transparent"/>
+</svg>

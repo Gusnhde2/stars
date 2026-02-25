@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="none">
+  <defs>
+    <!-- Frame gradients for depth -->
+    <linearGradient id="blackFrameTop" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="50%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <linearGradient id="blackFrameLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="50%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <linearGradient id="blackFrameRight" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="50%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <linearGradient id="blackFrameBottom" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="50%" stop-color="#1A1A1A"/>
+      <stop offset="100%" stop-color="#0A0A0A"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Frame pieces -->
+  <polygon points="0,0 400,0 370,30 30,30" fill="url(#blackFrameTop)"/>
+  <polygon points="0,0 30,30 30,470 0,500" fill="url(#blackFrameLeft)"/>
+  <polygon points="400,0 400,500 370,470 370,30" fill="url(#blackFrameRight)"/>
+  <polygon points="0,500 30,470 370,470 400,500" fill="url(#blackFrameBottom)"/>
+  
+  <!-- Outer edge highlight -->
+  <polygon points="0,0 400,0 400,500 0,500" fill="none" stroke="#4A4A4A" stroke-width="1"/>
+  
+  <!-- Inner edge (dark inset) -->
+  <polygon points="30,30 370,30 370,470 30,470" fill="none" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Inner content area (transparent) -->
+  <rect x="30" y="30" width="340" height="440" fill="transparent"/>
+</svg>
