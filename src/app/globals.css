@@ -181,3 +181,137 @@ input[type="range"]::-moz-range-thumb {
 textarea {
   font-family: inherit;
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ── Mobile responsive ──                       */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Mobile toggle bar (visible only on mobile) */
+.mobile-toggle-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  /* Show mobile toggle bar */
+  .mobile-toggle-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(17, 17, 19, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 8px 16px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    gap: 8px;
+  }
+
+  .mobile-toggle-bar button {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  /* Main layout stacks vertically */
+  .app-main {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+
+  /* Sidebar becomes full-width top panel */
+  .app-sidebar {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    flex-shrink: 0 !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* Preview panel fills remaining space */
+  .app-preview {
+    flex: none !important;
+    height: auto !important;
+    min-height: 60vh !important;
+    overflow: visible !important;
+    padding-bottom: 64px;
+    /* space for bottom bar */
+  }
+
+  /* Hide panel based on active mobile view */
+  .app-sidebar.mobile-hidden {
+    display: none !important;
+  }
+
+  .app-preview.mobile-hidden {
+    display: none !important;
+  }
+
+  /* Make sidebar header smaller */
+  .sidebar-header {
+    padding: 14px 16px 12px !important;
+  }
+
+  /* Sidebar scrollable content */
+  .sidebar-scroll {
+    padding: 16px !important;
+    overflow-y: visible !important;
+    flex: none !important;
+  }
+
+  /* Footer */
+  .sidebar-footer {
+    padding: 10px 16px 16px !important;
+    padding-bottom: max(16px, calc(env(safe-area-inset-bottom) + 60px)) !important;
+  }
+
+  /* Preview area */
+  .preview-canvas-area {
+    padding: 16px !important;
+    min-height: 400px !important;
+  }
+
+  /* Preview card */
+  .preview-card {
+    padding: 12px !important;
+  }
+
+  /* Hide desktop preview header view tabs on mobile — we use bottom bar instead */
+  .preview-header-tabs {
+    display: none !important;
+  }
+}
+
+/* Tablet tweaks */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .app-sidebar {
+    width: 360px !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 380px) {
+  .sidebar-header {
+    padding: 12px 12px 10px !important;
+  }
+
+  .sidebar-scroll {
+    padding: 12px !important;
+  }
+
+  .sidebar-footer {
+    padding: 8px 12px 12px !important;
+  }
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useStarMap } from '@/hooks/useStarMap';
 import { useExport } from '@/hooks/useExport';
 import { StarMapCanvas } from '@/components/StarMap/StarMapCanvas';
@@ -8,6 +8,8 @@ import { PosterPreview } from '@/components/StarMap/PosterPreview';
 import { FramedPreview } from '@/components/StarMap/FramedPreview';
 import { PRESET_LOCATIONS } from '@/lib/astronomy/observer';
 import { PAPER_SIZES, FRAME_SIZES, type PaperFormat, type PosterStyle } from '@/types/export';
+
+type MobileView = 'controls' | 'preview';
 
 type TabType = 'poster' | 'gift';
 
@@ -142,6 +144,15 @@ export default function Home() {
   const [showMore, setShowMore] = useState(false);
   const [showPresets, setShowPresets] = useState(false);
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
+  const [mobileView, setMobileView] = useState<MobileView>('controls');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const {
     observer, renderOptions, stars, geometry,
@@ -204,10 +215,10 @@ export default function Home() {
   ];
 
   return (
-    <main style={{ height: '100vh', display: 'flex', background: '#09090b', overflow: 'hidden' }}>
+    <main className="app-main" style={{ height: '100vh', display: 'flex', background: '#09090b', overflow: 'hidden' }}>
 
       {/* ━━━━━━━━━━ SIDEBAR ━━━━━━━━━━ */}
-      <aside style={{
+      <aside className={`app-sidebar${isMobile && mobileView !== 'controls' ? ' mobile-hidden' : ''}`} style={{
         width: 440,
         flexShrink: 0,
         height: '100vh',
@@ -218,7 +229,7 @@ export default function Home() {
       }}>
 
         {/* ── Header ── */}
-        <div style={{ padding: '20px 24px 16px' }}>
+        <div className="sidebar-header" style={{ padding: '20px 24px 16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
             <div style={{
               width: 36, height: 36, borderRadius: 10,
@@ -292,7 +303,7 @@ export default function Home() {
         <div style={s.divider} />
 
         {/* ── Scrollable content ── */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
+        <div className="sidebar-scroll" style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
 
           {/* ╌╌╌ STEP 1: Design ╌╌╌ */}
           {currentStep === 1 && (
@@ -852,7 +863,7 @@ export default function Home() {
         </div>
 
         {/* ── Footer / Export ── */}
-        <div style={{ padding: '12px 24px 20px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="sidebar-footer" style={{ padding: '12px 24px 20px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           {currentStep === 3 ? (
             <button onClick={handleExport} disabled={isExporting} style={{
               width: '100%', padding: '14px 0', borderRadius: 12,
@@ -892,7 +903,7 @@ export default function Home() {
       </aside>
 
       {/* ━━━━━━━━━━ PREVIEW ━━━━━━━━━━ */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: '#0c0c0e' }}>
+      <div className={`app-preview${isMobile && mobileView !== 'preview' ? ' mobile-hidden' : ''}`} style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', background: '#0c0c0e' }}>
 
         {/* Preview header */}
         <div style={{
@@ -907,7 +918,7 @@ export default function Home() {
           </div>
 
           {/* View mode tabs */}
-          <div style={{
+          <div className="preview-header-tabs" style={{
             display: 'flex', gap: 2,
             background: '#111113', borderRadius: 8, padding: 2,
             border: '1px solid rgba(255,255,255,0.04)',
@@ -930,9 +941,9 @@ export default function Home() {
         </div>
 
         {/* Canvas area */}
-        <div style={{
+        <div className="preview-canvas-area" style={{
           flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: 32, minHeight: 0, position: 'relative',
+          padding: isMobile ? 16 : 32, minHeight: 0, position: 'relative',
         }}>
           {/* Ambient glow */}
           <div style={{
@@ -947,31 +958,56 @@ export default function Home() {
           </div>
 
           {/* Preview card */}
-          <div style={{
+          <div className="preview-card" style={{
             position: 'relative',
             background: '#09090b',
-            borderRadius: 16,
-            padding: activeTab === 'poster' ? 24 : 12,
+            borderRadius: isMobile ? 12 : 16,
+            padding: activeTab === 'poster' ? (isMobile ? 12 : 24) : (isMobile ? 8 : 12),
             border: '1px solid rgba(255,255,255,0.06)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.5), 0 0 80px rgba(129,140,248,0.03)',
             maxHeight: '100%',
+            maxWidth: '100%',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             overflow: 'hidden',
           }}>
             {activeTab === 'poster' && (
-              <StarMapCanvas geometry={geometry} theme={renderOptions.theme} size={680} />
+              <StarMapCanvas geometry={geometry} theme={renderOptions.theme} size={isMobile ? Math.min(window.innerWidth - 56, 480) : 680} />
             )}
             {activeTab === 'gift' && (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: 700 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', maxWidth: isMobile ? '100%' : 700 }}>
                 {frameConfig.format === 'framed' ? (
-                  <FramedPreview geometry={geometry} frameConfig={frameConfig} posterConfig={posterConfig} theme={renderOptions.theme} size={580} />
+                  <FramedPreview geometry={geometry} frameConfig={frameConfig} posterConfig={posterConfig} theme={renderOptions.theme} size={isMobile ? Math.min(window.innerWidth - 56, 420) : 580} />
                 ) : (
-                  <PosterPreview geometry={geometry} config={posterConfig} theme={renderOptions.theme} size={580} />
+                  <PosterPreview geometry={geometry} config={posterConfig} theme={renderOptions.theme} size={isMobile ? Math.min(window.innerWidth - 56, 420) : 580} />
                 )}
               </div>
             )}
           </div>
         </div>
+      </div>
+
+      {/* ━━━━━━━━━━ MOBILE BOTTOM BAR ━━━━━━━━━━ */}
+      <div className="mobile-toggle-bar">
+        <button
+          onClick={() => setMobileView('controls')}
+          style={{
+            background: mobileView === 'controls' ? '#1e1e22' : 'transparent',
+            color: mobileView === 'controls' ? '#fafafa' : '#52525b',
+            boxShadow: mobileView === 'controls' ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
+          }}
+        >
+          ◆ Controls
+        </button>
+        <button
+          onClick={() => setMobileView('preview')}
+          style={{
+            background: mobileView === 'preview' ? 'rgba(129,140,248,0.12)' : 'transparent',
+            color: mobileView === 'preview' ? '#a5b4fc' : '#52525b',
+            boxShadow: mobileView === 'preview' ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
+          }}
+        >
+          ✦ Preview
+        </button>
       </div>
     </main>
   );
